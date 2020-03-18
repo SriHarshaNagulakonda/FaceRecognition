@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Criminals</title>
+    <style>
+        ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #4CAF50;
+}
+</style>
+</head>
+<body>
+
+
+            <ul id="nav">
+                <li><a  href="{% url 'user:index' %}">Testing</a></li>
+                <li><a href="#">Front Cam Detection</a></li>
+                <li><a class="active"   href="#">Add New Criminals</a></li>
+            </ul>
+
+
+<form method="post" action="{% url 'user:add' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+        <table align="center" cellspacing="20" cellpadding="20">
+            <tr>
+                <td>Name </td>
+                <td><input type="text" name="name"></td>
+            </tr>
+            <tr>
+                <td>Crime </td>
+                <td><input type="text" name="crime"></td>
+            </tr>
+            <tr>
+                <td>City </td>
+                <td><input type="text" name="city"></td>
+            </tr>
+            <tr>
+                <td>Photo </td>
+                <td><input type="file" name="photo" ></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td><input type="submit" name="submit"></td>
+            </tr>
+        </table>
+</form>
+</body>
+</html>
