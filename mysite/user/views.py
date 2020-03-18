@@ -19,20 +19,6 @@ from keras.models import load_model
 from keras.preprocessing.image import load_img
 
 
-def index(request):
-    if request.method=="POST":
-        file=request.FILES['photo']
-        temp=Criminal.objects.get(name="temp")
-        temp.photo=file
-        temp.save()
-        temp=Criminal.objects.get(name="temp")
-        path='/home/ashok/PycharmProjects/face/mysite/media/'+str(temp.photo)
-        x=compare(path)
-        return render(request,'test.html',{"x":x})
-
-    return render(request,'test.html',{})
-
-
 
 def extract_face(filename, required_size=(160, 160)):
     image = Image.open(filename)
@@ -82,6 +68,22 @@ def compare(path):
     return "Not found"
 
 
+
+
+def index(request):
+    if request.method=="POST":
+        file=request.FILES['photo']
+        temp=Criminal.objects.get(name="temp")
+        temp.photo=file
+        temp.save()
+        temp=Criminal.objects.get(name="temp")
+        path='/home/ashok/PycharmProjects/face/mysite/media/'+str(temp.photo)
+        x=compare(path)
+        return render(request,'test.html',{"x":x})
+
+    return render(request,'test.html',{})
+
+
 def add(request):
     if request.method=='POST':
         file=request.FILES['photo']
@@ -100,4 +102,13 @@ def add(request):
         c.embedding=",".join(map(str,temp))
         c.save()
     return render(request,'add.html',{})
+
+def all(request):
+    y=Criminal.objects.all()
+    x=[]
+    for i in y:
+        if i.name!="temp":
+            #i.photo="/home/ashok/PycharmProjects/face/mysite/"+str(i.photo)
+            x.append(i)
+    return render(request,'all.html',{'x':x})
 
