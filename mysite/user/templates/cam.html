@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <style>
+        ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #4CAF50;
+}
+</style>
+</head>
+<body>
+
+            <ul id="nav">
+                <li><a  href="{% url 'user:index' %}">Testing</a></li>
+                <li><a class="active" href="#">Web Cam Detection</a></li>
+                <li><a href="{% url 'user:add' %}">Add New Criminals</a></li>
+                <li><a href="{% url 'user:all' %}">View All Criminals</a></li>
+            </ul>
+            <br><br><br><br><br><br>
+
+
+        <form method="post" enctype="multipart/form-data" action="{% url 'user:frontcam' %}">
+            {% csrf_token %}
+            <input type="submit" name="name" value="Take Photo">
+        </form>
+
+</body>
+</html>
+
+

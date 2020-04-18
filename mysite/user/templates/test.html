@@ -36,8 +36,14 @@ li a:hover:not(.active) {
 <body>
 
             <ul id="nav">
-                <li><a class="active" href="#">Testing</a></li>
-                <li><a href="#">Web Cam Detection</a></li>
+                {% if cam %}
+
+                    <li><a class="" href="#">Testing</a></li>
+                    <li><a class="active" href="{% url 'user:cam' %}">Web Cam Detection</a></li>
+                {% else %}
+                    <li><a class="active" href="#">Testing</a></li>
+                    <li><a href="{% url 'user:cam' %}">Web Cam Detection</a></li>
+                {% endif %}
                 <li><a href="{% url 'user:add' %}">Add New Criminals</a></li>
                 <li><a href="{% url 'user:all' %}">View All Criminals</a></li>
             </ul>
@@ -60,7 +66,7 @@ li a:hover:not(.active) {
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <img src="{{ x.photo.url }}" alt="hii" height="200" width="200">
+                            <img src="{{ x.photo.url }}" alt="{{ x.photo.url }}" height="200" width="200">
                         </td>
                     </tr>
                 </table>

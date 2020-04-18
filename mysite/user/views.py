@@ -5,7 +5,7 @@ from os import listdir
 from os.path import isdir
 from PIL import Image
 from numpy import asarray, savez_compressed
-from matplotlib import pyplot as plt
+# from matplotlib import pyplot as plt
 from mtcnn.mtcnn import MTCNN
 import cv2
 from tensorflow.keras.models import load_model
@@ -47,10 +47,12 @@ def get_embedding(model, face_pixels):
     yhat = model.predict(samples)
     return yhat[0]
 
+def cam(request):
+    return  render(request,'cam.html')
 
 def compare(path):
     face = extract_face(path)
-    model = load_model('/home/ashok/PycharmProjects/face/mysite/facenet.h5')
+    model = load_model('/home/harsha/Downloads/face/mysite/facenet.h5')
     y = get_embedding(model, face)
     m = 10 ** 5
     xyz = []
@@ -67,7 +69,13 @@ def compare(path):
         return j
     return "Not found"
 
-
+def front_cam(request):
+    cap = cv2.VideoCapture(0)
+    ret, frame = cap.read()
+    cv2.imwrite('harsha.png', frame)
+    x = compare('harsha.png')
+    return render(request, 'test.html', {"x": x,"cam":1})
+    # model=request.session["model"]
 
 
 def index(request):
@@ -77,7 +85,7 @@ def index(request):
         temp.photo=file
         temp.save()
         temp=Criminal.objects.get(name="temp")
-        path='/home/ashok/PycharmProjects/face/mysite/media/'+str(temp.photo)
+        path='/home/harsha/Downloads/face/mysite/media/'+str(temp.photo)
         x=compare(path)
         return render(request,'test.html',{"x":x})
 
@@ -96,8 +104,8 @@ def add(request):
         c.save()
         id=c.id
         c=Criminal.objects.get(id=id)
-        pixels = extract_face('/home/ashok/PycharmProjects/face/mysite/media/'+str(c.photo))
-        model = load_model('/home/ashok/PycharmProjects/face/mysite/facenet.h5')
+        pixels = extract_face('/home/harsha/Downloads/face/mysite/media/'+str(c.photo))
+        model = load_model('/home/harsha/Downloads/face/mysite/facenet.h5')
         temp=get_embedding(model,pixels)
         c.embedding=",".join(map(str,temp))
         c.save()
@@ -108,7 +116,7 @@ def all(request):
     x=[]
     for i in y:
         if i.name!="temp":
-            #i.photo="/home/ashok/PycharmProjects/face/mysite/"+str(i.photo)
+            #i.photo="/home/harsha/Downloads/face/mysite/"+str(i.photo)
             x.append(i)
     return render(request,'all.html',{'x':x})
 
